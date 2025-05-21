@@ -80,8 +80,8 @@ Edit
 
 ```bash
 # Clone the repository
-git clone https://github.com/Harshajevs/segment-tree-game.git
-cd segment_tree_game
+git clone https://github.com/Harshajevs/segment-Tree-Game-Simulator.git
+cd Segment_Tree_Game
 
 # Build the project
 mkdir build && cd build
@@ -137,4 +137,4 @@ Kammari HarshaVardhan
 GitHub
 
 📜 License
-This project is licensed under the MIT License – see the LICENSE file for details.
+This project is licensed under the MIT License.
