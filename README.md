@@ -1,115 +1,140 @@
-# Segment-Tree-Battle-Simulator
-A high-performance battle simulation game using advanced segment trees for real-time range queries and combat dynamics involving attack and health attributes.
+# ⚔️ Segment Tree Battle Simulator
 
+A high-performance, data structure-focused battle simulation using advanced segment trees for real-time range queries and updates. Designed to handle large-scale combat between two massive teams, this simulator is ideal for testing algorithmic efficiency and strategic planning using core C++17 features.
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/Harshajevs/segment-Tree-Battle-Simulator)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://isocpp.org/wiki/faq/cpp17)
+---
 
-A high-performance, modular battle simulation leveraging advanced segment trees for efficient range queries and updates, designed for real-time strategic analysis in large-scale combat scenarios.
+## 📦 Dataset
+
+- `data/team1.txt`  
+- `data/team2.txt`  
+
+Each file contains **100,000** entries in the format:
+attack_value health_value
+
+yaml
+Copy
+Edit
 
 ---
 
 ## 🚀 Features
 
-- 🔄 **Efficient Range Queries**: Compute sum, max, min, GCD, and LCM across segments
-- ⏱ **Logarithmic Time Complexity**: All queries and updates operate in O(log N)
-- 🧩 **Robust Modular Design**: Clear separation between game logic and data structures
-- ⚔️ **Scalable Combat Simulation**: Supports up to 100,000 soldiers per team
-- 🛠 **CMake Build System**: Easy to build and run on all major platforms
+- **Efficient Segment Trees**: Support for sum, min, max, GCD, and LCM operations  
+- **Logarithmic Querying**: All updates and queries perform in O(log N)  
+- **Modular Design**: Clear separation of logic into `include`, `src`, and `app`  
+- **Massive Scale Simulation**: Handles 100K soldiers per team with ease  
+- **Bonus Rounds**: GCD/LCM-based rounds for strategic advantage
 
 ---
 
-## 📦 Installation
+## 🧠 Technology Stack
+
+- **C++17**: Core implementation language  
+- **CMake**: Build configuration and dependency management  
+- **Custom Segment Trees**: Optimized for real-time game scenarios  
+- **File I/O**: Reads team data from pre-loaded `.txt` files
+
+---
+
+## 🗂️ Project Structure
+
+segment_tree_game/
+├── include/
+│ ├── SegmentTree.h # Main class declaration
+│ ├── TreeOperations.h # Operation-specific functions
+│ └── Utils.h # Utility helpers
+│
+├── src/
+│ ├── SegmentTree.cpp # Core SegmentTree logic
+│ ├── TreeOperations/
+│ │ ├── BuildOperations.cpp
+│ │ ├── QueryOperations.cpp
+│ │ └── UpdateOperations.cpp
+│ └── Utils.cpp # Utility function implementations
+│
+├── app/
+│ └── main.cpp # Battle simulation entry point
+│
+├── data/
+│ ├── team1.txt
+│ └── team2.txt
+│
+├── CMakeLists.txt
+└── README.md
+
+yaml
+Copy
+Edit
+
+---
+
+## ⚙️ Getting Started
+
+### 📋 Prerequisites
+
+- C++17 compatible compiler (GCC, Clang, MSVC)  
+- CMake 3.10 or higher
+
+### 🛠️ Installation
 
 ```bash
-git clone https://github.com/Harshajevs/segment-Tree-Battle-Simulator.git
-cd segment-tree-battle
+# Clone the repository
+git clone https://github.com/Harshajevs/segment-tree-game.git
+cd segment_tree_game
+
+# Build the project
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
-🎮 Game Mechanics & Dynamics
-🧠 Overview
-Two armies, each consisting of 100,000 soldiers, engage in turn-based strategic combat. Each soldier possesses:
+🕹️ How It Works
+Load soldier stats from team1.txt and team2.txt
 
-Attack value
+Build segment trees for attack and health attributes
 
-Health value
+For each round (up to 100 rounds/team):
 
-The simulation spans 100 rounds per team, and each round includes:
+Input attack and defense ranges
 
-Range-based attack and defense operations
+Compute total and bonus damage (Sum, Max, Min, GCD, LCM)
 
-Bonus challenge rounds utilizing GCD and LCM segment trees
+Update tree values accordingly
 
-Real-time attribute updates and score tracking
+Track health depletion and determine the winner
 
-🔁 Core Operations
-Range Sum: Total attack or health values in a specified range
+📈 Sample Stats (Example)
+Operation	Complexity	Use Case
+Sum	O(log N)	Total damage calculation
+Max/Min	O(log N)	Identify MVP/weakest units
+GCD/LCM	O(log N)	Bonus damage in special rounds
 
-Range Max/Min: Identify the strongest or weakest soldier in a range
-
-GCD/LCM Queries: Used in bonus rounds for strategic scoring
-
-🖥️ Sample Interaction
-Prompted for input ranges during each round
-
-View real-time updates of health and attack values
-
-Receive bonus points during GCD/LCM rounds
-
-Game declares the winning team based on accumulated scores
-
-📂 Data Files Format
-Your input files should be placed in the data/ directory:
-
-data/team1.txt
-
-data/team2.txt
-
-Each file must contain 100,000 lines with the format:
-
-php-template
-Copy
-Edit
-<attack_value> <health_value>
-Example:
+🧪 Example Input Format
+team1.txt and team2.txt:
 
 python-repl
 Copy
 Edit
-10 100
-15 85
+120 1000
+85  900
+140 750
 ...
-🧭 Usage
-bash
-Copy
-Edit
-./BattleSimulator
-Follow the on-screen prompts to input attack and defense ranges. The game processes data using segment trees and outputs the result of each round dynamically.
-
 📝 Notes
-Ensure input files exist in the data/ directory and are formatted properly.
+Input ranges are zero-indexed
 
-Indexing is zero-based.
+Ensure all data files are properly formatted
 
-Designed for optimal performance on large datasets.
+All segment trees are initialized during the build phase
 
-🤝 Contributing
-Contributions are welcome! To contribute:
+🛠️ Future Enhancements
+GUI integration using Qt/SDL for visualizing battles
 
-Fork the repository
+Replay functionality for previous rounds
 
-Create a feature branch (git checkout -b feature-name)
+Extend support for multi-team tournaments
 
-Commit your changes
-
-Push to the branch (git push origin feature-name)
-
-Submit a Pull Request
-
-Please adhere to code formatting guidelines and include appropriate test cases.
+👨‍💻 Author
+Kammari HarshaVardhan
+GitHub
 
 📜 License
-This project is licensed under the MIT License.
-See the LICENSE file for more information.
+This project is licensed under the MIT License – see the LICENSE file for details.
