@@ -80,8 +80,8 @@ Edit
 
 ```bash
 # Clone the repository
-git clone https://github.com/Harshajevs/segment-Tree-Game-Simulator.git
-cd Segment_Tree_Game
+git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git
+cd Segment-Tree-Game-Simulator
 
 # Build the project
 mkdir build && cd build
@@ -133,8 +133,6 @@ Replay functionality for previous rounds
 Extend support for multi-team tournaments
 
 👨‍💻 Author
-Kammari HarshaVardhan
-GitHub
-
+Kammari HarshaVardhan - [https://github.com/Harshajevs](https://github.com/Harshajevs)
 📜 License
 This project is licensed under the MIT License.
