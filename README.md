@@ -63,7 +63,6 @@ Bonus points for highest values
 
 ### Complex Operations
 
-'''bash
 
 // Damage calculation example
 int damage = segtree.querySumAttack(l, r) -
@@ -74,7 +73,6 @@ if(segtree.queryGcdAttack(gcd_l, gcd_r) >
 enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
 teamScore += 50;
 }
-'''
 
 # 📦 Installation & Usage
 
@@ -104,6 +102,8 @@ Edit
 85 900
 140 750
 ...
+
+```
 
 ## ⚙️ Technical Highlights
 
