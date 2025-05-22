@@ -37,6 +37,7 @@ BattleSimulator/
 ## ⚔️ Game Dynamics
 
 ### Core Combat Flow
+```bash
 Team A Attacks (100 rounds)
 
 Choose attack range [start, end]
@@ -73,6 +74,7 @@ if(segtree.queryGcdAttack(gcd_l, gcd_r) >
 enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
 teamScore += 50;
 }
+```
 
 # 📦 Installation & Usage
 
@@ -81,19 +83,17 @@ teamScore += 50;
 # Make sure you have:
 # - C++17 compatible compiler (GCC, Clang, or MSVC)
 # - CMake 3.10 or higher installed
-🛠 Installation Commands
-bash
-Copy
-Edit
+
+Installation Commands
+
 git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git
 cd Segment-Tree-Game-Simulator
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
-▶️ Run the Simulation
-bash
-Copy
-Edit
+
+Run the Simulation
+
 ./SegmentTreeGame
 
 **Input Format**  
