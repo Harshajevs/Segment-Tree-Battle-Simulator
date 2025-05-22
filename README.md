@@ -72,21 +72,26 @@ enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
 teamScore += 50;
 }
 
-## 🚀 Installation & Usage
+Installation & Usage
 
-**Prerequisites**  
-- C++17 compiler
-- CMake ≥3.15
+Prerequisites
 
-Clone & Build
-git clone https://github.com/Harshajevs/Segment-Tree-Battle-Simulator.git
-cd Segment-Tree-Game-Simulator
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build .
+C++17 compatible compiler (GCC, Clang, MSVC)
 
-Run with sample data
-./BattleSimulator
+CMake 3.10 or higher
+
+Installation Commands
+
+text
+git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git  
+cd Segment-Tree-Game-Simulator  
+mkdir build && cd build  
+cmake .. -DCMAKE_BUILD_TYPE=Release  
+cmake --build .  
+Run the Simulation
+
+text
+./SegmentTreeGame  
 
 **Input Format**  
 `data/team1.txt` and `data/team2.txt`:
