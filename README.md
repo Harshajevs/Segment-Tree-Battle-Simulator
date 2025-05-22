@@ -76,27 +76,28 @@ teamScore += 50;
 }
 '''
 
-## Installation & Usage
-bash'''
-Prerequisites
+# 📦 Installation & Usage
 
-C++17 compatible compiler (GCC, Clang, MSVC)
+## 🔧 Prerequisites
+```bash
+# Make sure you have:
+# - C++17 compatible compiler (GCC, Clang, or MSVC)
+# - CMake 3.10 or higher installed
+🛠 Installation Commands
+bash
+Copy
+Edit
+git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git
+cd Segment-Tree-Game-Simulator
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+▶️ Run the Simulation
+bash
+Copy
+Edit
+./SegmentTreeGame
 
-CMake 3.10 or higher
-
-Installation Commands
-
-git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git  
-cd Segment-Tree-Game-Simulator  
-mkdir build && cd build  
-cmake .. -DCMAKE_BUILD_TYPE=Release  
-cmake --build .  
-Run the Simulation
-
-text
-./SegmentTreeGame  
-
-'''
 **Input Format**  
 `data/team1.txt` and `data/team2.txt`:
 120 1000 # Attack Health
