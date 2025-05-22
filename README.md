@@ -1,145 +1,155 @@
 # ⚔️ Segment-Tree-Battle-Simulator
 
+
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.cppreference.com/)
 [![CMake](https://img.shields.io/badge/Build-CMake-brightgreen)](https://cmake.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 
-A high-performance, segment tree-based battle simulation engine designed to demonstrate real-time combat strategies, data structure mastery, and algorithmic precision. The game pits two teams of soldiers in a strategic, turn-based fight with advanced range query capabilities such as Sum, Max, Min, GCD, and LCM — all in logarithmic time.
-
----
+A high-performance battle simulation engine using parallel segment trees to manage real-time combat operations with O(log N) complexity.
 
 ## 🎯 Key Features
 
-- ⚡ **Multi-Functional Segment Trees**  
-  Efficient tracking of multiple statistics like Sum, Max, Min, GCD, and LCM using specialized parallel trees.
+- **Multi-Operation Segment Trees**  
+  Simultaneous tracking of Sum, Max, Min, GCD & LCM
+- **Efficient Combat Mechanics**  
+  100k soldiers/team with real-time updates
+- **Strategic Gameplay**  
+  Alternating attack/defense phases with special GCD/LCM challenges
+- **Modular Architecture**  
+  Separated build/query/update operations
+- **Robust Validation**  
+  Automatic range correction and error handling
 
-- 🛡 **Turn-Based Combat Engine**  
-  Simulates a two-phase battle: 100 attack rounds from each team, followed by a strategic evaluation.
-
-- 💡 **Strategic GCD/LCM Rounds**  
-  Every 10th round introduces special challenges where GCD and LCM stats are compared for bonus scoring.
-
-- 🧩 **Modular, Scalable Architecture**  
-  Separation of concerns with clean interfaces for build, query, and update operations.
-
-- 🧪 **Robust Input Handling**  
-  Input sanitization, automatic range correction, and overflow-safe arithmetic with 64-bit integers.
-
----
-
-## 🧠 Technical Architecture
+## Technical Architecture
 
 BattleSimulator/
-├── include/
-│ ├── SegmentTree.h # Core segment tree declarations
-│ └── TreeOperations.h # Templated operation handlers
-├── src/
-│ ├── SegmentTree.cpp # Core segment tree implementation
-│ └── TreeOperations/
-│ ├── BuildOps.cpp # Tree construction logic
-│ ├── QueryOps.cpp # Efficient range queries
-│ └── UpdateOps.cpp # Real-time node updates
-├── app/
-│ └── main.cpp # Game loop, I/O, and battle logic
-└── scripts/
-└── generate_teams.sh # Sample data generator (optional)
+├── include/ # Interface definitions
+│ ├── SegmentTree.h # Core DS declaration
+│ └── TreeOperations.h # Operation templates
+├── src/ # Implementation
+│ ├── SegmentTree.cpp # Core initialization
+│ └── TreeOperations/ # Specialized implementations
+│ ├── BuildOps.cpp # Tree construction
+│ ├── QueryOps.cpp # Range operations
+│ └── UpdateOps.cpp # Real-time modifications
+└── app/main.cpp # Game simulation entry
 
-yaml
-Copy
-Edit
+text
 
----
+## ⚔️ Game Dynamics
 
-## ⚙️ Game Workflow
+### Core Combat Flow
+Team A Attacks (100 rounds)
 
-### 🔁 Phase 1: Team A Attacks
-- **100 attack rounds**  
-- User inputs attack range `[l1, r1]` (Team A) and defense range `[l2, r2]` (Team B)
-- **Damage = AttackSum - DefenseSum**
-- Segment trees update soldier values in real-time
+Choose attack range [start, end]
 
-### 🎯 Every 10th Round: Special Challenge
-- **GCD Challenge:** Team with higher GCD in given subrange scores bonus points
-- **LCM Challenge:** Team with higher LCM gets additional rewards
-- These are deterministic decision points encouraging diversified stat growth
+Choose Team B's defense range
 
-### 🔁 Phase 2: Team B Counterattacks
-- **100 attack rounds**, similar logic but with roles reversed
+Calculate damage: AttackSum - DefenseSum
 
-### 🏆 Victory Determination
-- Cumulative damage dealt, GCD/LCM challenge bonuses, and remaining health stats are used to determine the winner
+Update soldier stats
 
----
+Team B Counterattacks (100 rounds)
 
-## 🧮 Sample Combat Code Snippets
+Reverse roles with Team B attacking
 
-```cpp
-// Damage calculation
-int damage = attackTree.querySumAttack(l1, r1) -
-             defenseTree.querySumHealth(l2, r2);
+Same damage calculation logic
 
-// GCD special round logic
-if (attackTree.queryGcdAttack(g_l1, g_r1) >
-    defenseTree.queryGcdHealth(g_l2, g_r2)) {
-    teamScore += 50;
+Special Rounds (Every 10th round)
+
+GCD Challenge: Compare greatest common divisors
+
+LCM Challenge: Compare least common multiples
+
+Bonus points for highest values
+
+text
+
+### Complex Operations
+// Damage calculation example
+int damage = segtree.querySumAttack(l, r) -
+enemyTree.querySumHealth(def_l, def_r);
+
+// Special round GCD comparison
+if(segtree.queryGcdAttack(gcd_l, gcd_r) >
+enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
+teamScore += 50;
 }
-🚀 Installation & Execution
-✅ Prerequisites
-A C++17-compliant compiler (e.g., g++, clang++)
 
-CMake ≥ 3.15
+text
 
-🔧 Build Instructions
-bash
-Copy
-Edit
+## 🚀 Installation & Usage
+
+**Prerequisites**  
+- C++17 compiler
+- CMake ≥3.15
+
+Clone & Build
 git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git
 cd Segment-Tree-Game-Simulator
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
-🧪 Sample Data Generation (Optional)
-bash
-Copy
-Edit
-../scripts/generate_teams.sh
-# Generates `team1.txt` and `team2.txt` with randomized soldier stats
-▶️ Run the Simulation
-bash
-Copy
-Edit
+
+Run with sample data
 ./BattleSimulator
-🧾 Sample I/O
+
 text
-Copy
-Edit
-Enter attack range (start end): 500 1500
-Enter defense range (start end): 800 2000
 
-Damage dealt: 4520
+**Input Format**  
+`data/team1.txt` and `data/team2.txt`:
+120 1000 # Attack Health
+85 900
+140 750
+...
 
-[Special Round]
-Enter GCD comparison ranges:
-Team A: 100 300
-Team B: 200 400
-Team A wins this round! +50 points
-🛠 Technical Challenges Overcome
-Challenge	Solution Applied
-Large Input Size	4n-size arrays and memory-efficient traversal techniques
-Real-Time Tree Modification	Concurrent segment trees for Attack and Health stats
-Integer Overflow (LCM)	64-bit integer types (int64_t) to prevent arithmetic errors
-Invalid Input Handling	Built-in range correction and boundary clamping
+text
 
-📈 Performance Metrics
-Operation	Time Complexity	100k Soldiers (avg time)
-Tree Construction	O(N)	~42 ms
-Range Sum Query	O(log N)	~0.003 ms
-GCD Query/Update	O(log N)	~0.005 ms
-Full Battle Simulation	O(M log N)	~580 ms
+## ⚙️ Technical Highlights
 
-📜 License & Author
-License: MIT License — Free for academic and commercial use
+### Segment Tree Implementation
+class SegmentTree {
+// Parallel trees for different operations
+vector<int> sumAttackTree, maxAttackTreeIndex, gcdAttackTree...
 
-Author: Kammari HarshaVardhan
-GitHub: https://github.com/Harshajevs
-Project: Segment Tree Game Simulator
+text
+// O(log N) query example
+int querySumAttack(int node, int start, int end, int l, int r) {
+    if(start > r || end < l) return 0;
+    if(l <= start && end <= r) return sumAttackTree[node];
+    int mid = (start + end)/2;
+    return querySumAttack(leftChild...) + querySumAttack(rightChild...);
+}
+};
+
+text
+
+### Key Optimizations
+- **4n Tree Size** for efficient memory usage
+- **Batch Updates** during combat phases
+- **64-bit LCM** handling to prevent overflow
+- **Input Sanitization** for invalid ranges
+
+## 📊 Performance Metrics
+
+| Operation        | Complexity | 100k Elements (ms) |
+|------------------|------------|--------------------|
+| Tree Construction| O(N)       | 42                 |
+| Range Sum Query  | O(log N)   | 0.003              |
+| GCD Update       | O(log N)   | 0.005              |
+| Full Simulation  | O(M log N) | 580                |
+
+## 🛠️ Development Challenges
+
+1. **Integer Overflow** in LCM calculations  
+   *Solution:* Implemented 64-bit integers with overflow checks
+2. **Concurrent Updates** across multiple trees  
+   *Solution:* Atomic update propagation system
+3. **Range Validation** for invalid inputs  
+   *Solution:* Auto-correcting boundary checks
+
+## 📜 License & Attribution
+
+MIT Licensed - Free for academic/commercial use  
+**Author**: Kammari HarshaVardhan  
+**GitHub**: [https://github.com/Harshajevs](https://github.com/Harshajevs)
