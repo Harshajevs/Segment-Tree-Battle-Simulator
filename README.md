@@ -34,8 +34,6 @@ BattleSimulator/
 │ └── UpdateOps.cpp # Real-time modifications
 └── app/main.cpp # Game simulation entry
 
-text
-
 ## ⚔️ Game Dynamics
 
 ### Core Combat Flow
@@ -63,8 +61,6 @@ LCM Challenge: Compare least common multiples
 
 Bonus points for highest values
 
-text
-
 ### Complex Operations
 // Damage calculation example
 int damage = segtree.querySumAttack(l, r) -
@@ -76,8 +72,6 @@ enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
 teamScore += 50;
 }
 
-text
-
 ## 🚀 Installation & Usage
 
 **Prerequisites**  
@@ -85,7 +79,7 @@ text
 - CMake ≥3.15
 
 Clone & Build
-git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git
+git clone https://github.com/Harshajevs/Segment-Tree-Battke-Simulator.git
 cd Segment-Tree-Game-Simulator
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
@@ -94,16 +88,12 @@ cmake --build .
 Run with sample data
 ./BattleSimulator
 
-text
-
 **Input Format**  
 `data/team1.txt` and `data/team2.txt`:
 120 1000 # Attack Health
 85 900
 140 750
 ...
-
-text
 
 ## ⚙️ Technical Highlights
 
@@ -112,7 +102,6 @@ class SegmentTree {
 // Parallel trees for different operations
 vector<int> sumAttackTree, maxAttackTreeIndex, gcdAttackTree...
 
-text
 // O(log N) query example
 int querySumAttack(int node, int start, int end, int l, int r) {
     if(start > r || end < l) return 0;
@@ -122,7 +111,6 @@ int querySumAttack(int node, int start, int end, int l, int r) {
 }
 };
 
-text
 
 ### Key Optimizations
 - **4n Tree Size** for efficient memory usage
