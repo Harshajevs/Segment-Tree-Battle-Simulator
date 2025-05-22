@@ -72,7 +72,7 @@ enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
 teamScore += 50;
 }
 
-Installation & Usage
+## Installation & Usage
 
 Prerequisites
 
