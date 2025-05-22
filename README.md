@@ -62,6 +62,9 @@ LCM Challenge: Compare least common multiples
 Bonus points for highest values
 
 ### Complex Operations
+
+'''bash
+
 // Damage calculation example
 int damage = segtree.querySumAttack(l, r) -
 enemyTree.querySumHealth(def_l, def_r);
@@ -71,9 +74,10 @@ if(segtree.queryGcdAttack(gcd_l, gcd_r) >
 enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
 teamScore += 50;
 }
+'''
 
 ## Installation & Usage
-
+bash'''
 Prerequisites
 
 C++17 compatible compiler (GCC, Clang, MSVC)
@@ -82,7 +86,6 @@ CMake 3.10 or higher
 
 Installation Commands
 
-text
 git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git  
 cd Segment-Tree-Game-Simulator  
 mkdir build && cd build  
@@ -93,6 +96,7 @@ Run the Simulation
 text
 ./SegmentTreeGame  
 
+'''
 **Input Format**  
 `data/team1.txt` and `data/team2.txt`:
 120 1000 # Attack Health
