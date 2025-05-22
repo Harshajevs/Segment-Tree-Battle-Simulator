@@ -79,7 +79,7 @@ teamScore += 50;
 - CMake ≥3.15
 
 Clone & Build
-git clone https://github.com/Harshajevs/Segment-Tree-Battke-Simulator.git
+git clone https://github.com/Harshajevs/Segment-Tree-Battle-Simulator.git
 cd Segment-Tree-Game-Simulator
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
