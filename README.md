@@ -1,153 +1,166 @@
-# ⚔️ Segment-Tree-Battle-Simulator
+# ⚔️ Segment Tree Battle Simulator
 
-
-[![C++17](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.cppreference.com/)
-[![CMake](https://img.shields.io/badge/Build-CMake-brightgreen)](https://cmake.org/)
+[![CI](https://github.com/Harshajevs/Segment-Tree-Battle-Simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Harshajevs/Segment-Tree-Battle-Simulator/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 
-A high-performance battle simulation engine using parallel segment trees to manage real-time combat operations with O(log N) complexity.
+A full-stack, turn-based battle game where **every game mechanic is a segment
+tree operation** — range sums resolve damage, min/max index queries pick
+targets and champions, and GCD/LCM range queries drive challenge rounds. All
+queries and updates run in O(log n) over teams of up to 100,000 soldiers, and
+an interactive visualizer shows the tree recomputing live.
 
-## 🎯 Key Features
+Originally a C++17 console project (Data Structures, Sep–Nov 2024, under
+Dr. Anil Shukla); now modernized into a web application while preserving the
+original game and algorithms. The original C++ lives on in
+[`legacy/cpp/`](legacy/cpp/) as the reference implementation.
 
-- **Multi-Operation Segment Trees**  
-  Simultaneous tracking of Sum, Max, Min, GCD & LCM
-- **Efficient Combat Mechanics**  
-  100k soldiers/team with real-time updates
-- **Strategic Gameplay**  
-  Alternating attack/defense phases with special GCD/LCM challenges
-- **Modular Architecture**  
-  Separated build/query/update operations
-- **Robust Validation**  
-  Automatic range correction and error handling
-
-## Technical Architecture
-
-BattleSimulator/
-├── include/ # Interface definitions
-│ ├── SegmentTree.h # Core DS declaration
-│ └── TreeOperations.h # Operation templates
-├── src/ # Implementation
-│ ├── SegmentTree.cpp # Core initialization
-│ └── TreeOperations/ # Specialized implementations
-│ ├── BuildOps.cpp # Tree construction
-│ ├── QueryOps.cpp # Range operations
-│ └── UpdateOps.cpp # Real-time modifications
-└── app/main.cpp # Game simulation entry
-
-## ⚔️ Game Dynamics
-
-### Core Combat Flow
-```bash
-Team A Attacks (100 rounds)
-
-Choose attack range [start, end]
-
-Choose Team B's defense range
-
-Calculate damage: AttackSum - DefenseSum
-
-Update soldier stats
-
-Team B Counterattacks (100 rounds)
-
-Reverse roles with Team B attacking
-
-Same damage calculation logic
-
-Special Rounds (Every 10th round)
-
-GCD Challenge: Compare greatest common divisors
-
-LCM Challenge: Compare least common multiples
-
-Bonus points for highest values
-
-### Complex Operations
-
-
-// Damage calculation example
-int damage = segtree.querySumAttack(l, r) -
-enemyTree.querySumHealth(def_l, def_r);
-
-// Special round GCD comparison
-if(segtree.queryGcdAttack(gcd_l, gcd_r) >
-enemyTree.queryGcdHealth(gcd_def_l, gcd_def_r)) {
-teamScore += 50;
-}
-```
-
-# 📦 Installation & Usage
-
-## 🔧 Prerequisites
-```bash
-# Make sure you have:
-# - C++17 compatible compiler (GCC, Clang, or MSVC)
-# - CMake 3.10 or higher installed
-
-Installation Commands
-
-git clone https://github.com/Harshajevs/Segment-Tree-Game-Simulator.git
-cd Segment-Tree-Game-Simulator
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build .
-
-Run the Simulation
-
-./SegmentTreeGame
-
-**Input Format**  
-`data/team1.txt` and `data/team2.txt`:
-120 1000 # Attack Health
-85 900
-140 750
-...
+## Architecture
 
 ```
+frontend/  React 19 + TypeScript + Vite + Tailwind (arena, visualizer, playground)
+   │ REST/JSON
+backend/   FastAPI (Python)
+   ├─ api/       thin routers + validation
+   ├─ schemas/   Pydantic contracts (big-int-safe serialisation)
+   ├─ services/  match lifecycle, replay-based rehydration
+   ├─ engine/    generic SegmentTree × 5 operations + battle rules (pure, no I/O)
+   ├─ ai/        commentary providers: local (default) | Ollama | OpenRouter
+   └─ db/        SQLAlchemy 2.0 — SQLite locally, Postgres via DATABASE_URL
+legacy/cpp/  original C++17 implementation (CMake, reference)
+docs/        AUDIT · PRD · EXECUTION_PLAN · DEPLOYMENT
+```
 
-## ⚙️ Technical Highlights
+**Key design points**
 
-### Segment Tree Implementation
-class SegmentTree {
-// Parallel trees for different operations
-vector<int> sumAttackTree, maxAttackTreeIndex, gcdAttackTree...
+- **One generic segment tree** parameterised by operation (sum, max-index,
+  min-index, GCD, LCM) replaces ten hand-written trees — identical
+  asymptotics, ~450 fewer duplicated lines, property-tested against naive
+  O(n) recomputation.
+- **Deterministic matches**: armies are generated from a seed; every action is
+  persisted; a restarted server rebuilds any match by replaying its action
+  log. No engine state is ever serialised.
+- **AI commentary is pluggable and optional**: a zero-credential template
+  provider is the default; Ollama (local) and OpenRouter (free hosted models)
+  are one env var away, and every failure falls back to the local provider.
 
-// O(log N) query example
-int querySumAttack(int node, int start, int end, int l, int r) {
-    if(start > r || end < l) return 0;
-    if(l <= start && end <= r) return sumAttackTree[node];
-    int mid = (start + end)/2;
-    return querySumAttack(leftChild...) + querySumAttack(rightChild...);
-}
-};
+## The game
 
+1. Two armies are generated from a seed (attack + health per soldier).
+2. Teams alternate as attacker. The attacker picks an attack range, the
+   defender a defence range: `damage = max(0, attackSum − defenseSum)`.
+3. Damage lands on the defender's **weakest** soldier (min-health index
+   query); the attacker's **strongest** soldier (max-attack index query)
+   gains a rally bonus.
+4. Every 10th round is a **GCD/LCM challenge** — +50 points per duel won.
+5. Match ends at max rounds (higher score wins) or when an army is wiped out.
 
-### Key Optimizations
-- **4n Tree Size** for efficient memory usage
-- **Batch Updates** during combat phases
-- **64-bit LCM** handling to prevent overflow
-- **Input Sanitization** for invalid ranges
+## Quick start
 
-## 📊 Performance Metrics
+Prerequisites: Python 3.12+, Node 20+. No credentials needed.
 
-| Operation        | Complexity | 100k Elements (ms) |
-|------------------|------------|--------------------|
-| Tree Construction| O(N)       | 42                 |
-| Range Sum Query  | O(log N)   | 0.003              |
-| GCD Update       | O(log N)   | 0.005              |
-| Full Simulation  | O(M log N) | 580                |
+### Backend
 
-## 🛠️ Development Challenges
+```bash
+cd backend
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+uvicorn app.main:app --reload          # http://localhost:8000 (docs at /docs)
+```
 
-1. **Integer Overflow** in LCM calculations  
-   *Solution:* Implemented 64-bit integers with overflow checks
-2. **Concurrent Updates** across multiple trees  
-   *Solution:* Atomic update propagation system
-3. **Range Validation** for invalid inputs  
-   *Solution:* Auto-correcting boundary checks
+### Frontend
 
-## 📜 License & Attribution
+```bash
+cd frontend
+npm install
+npm run dev                            # http://localhost:5173 (proxies /api to :8000)
+```
 
-MIT Licensed - Free for academic/commercial use  
-**Author**: Kammari HarshaVardhan  
-**GitHub**: [https://github.com/Harshajevs](https://github.com/Harshajevs)
+Open http://localhost:5173, start a battle (32–64 soldiers recommended for
+the visualizer), and play.
+
+### Legacy C++ (optional)
+
+```bash
+cd legacy/cpp
+python3 scripts/generate_data.py       # generates the 100k-soldier input files
+cmake -B build && cmake --build build
+./build/SegmentTreeGame
+```
+
+## Configuration
+
+All variables are optional — see [`backend/.env.example`](backend/.env.example).
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `DATABASE_URL` | `sqlite:///./battle.db` | any SQLAlchemy URL (Neon Postgres works) |
+| `CORS_ORIGINS` | `http://localhost:5173,…` | allowed frontend origins |
+| `AI_PROVIDER` | `local` | `local` \| `ollama` \| `openrouter` |
+| `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | `http://localhost:11434` / `llama3.2` | when `AI_PROVIDER=ollama` |
+| `OPENROUTER_API_KEY` / `OPENROUTER_MODEL` | – / `…llama-3.3-70b…:free` | when `AI_PROVIDER=openrouter` |
+| `LOG_LEVEL` | `INFO` | backend log verbosity |
+
+Frontend: `VITE_API_URL` (build-time) — leave unset in dev (Vite proxy) and
+for same-origin deploys; set to the backend URL for split deploys.
+
+## API overview
+
+Interactive OpenAPI docs at `/docs`. Highlights:
+
+| Endpoint | Purpose |
+|---|---|
+| `POST /api/matches` | create match `{team_size, seed, max_rounds, challenge_interval}` |
+| `POST /api/matches/{id}/actions` | play `{type: attack\|challenge, attack_range, defense_range}` |
+| `GET /api/matches/{id}/query` | any range query: `team, attribute, operation, left, right` |
+| `GET /api/matches/{id}/tree` | segment-tree nodes for visualization (depth-capped) |
+| `GET /api/matches/{id}/soldiers` | paginated soldier stats |
+| `GET /api/matches/{id}/actions` | full action log with commentary |
+
+## Testing
+
+```bash
+cd backend && .venv/bin/python -m pytest    # 43 tests
+cd frontend && npx tsc -b && npm run build  # type-check + production build
+```
+
+The engine suite cross-checks every operation × attribute against naive O(n)
+recomputation over randomized update/query sequences, and the API suite
+covers every endpoint including restart rehydration. CI runs all of it plus
+the legacy C++ build on every push.
+
+## Troubleshooting
+
+- **Frontend shows "Could not reach the backend"** — the API isn't running on
+  port 8000, or you changed ports without updating the Vite proxy/`VITE_API_URL`.
+- **`pip install` fails on Python < 3.12** — upgrade Python; SQLAlchemy/Pydantic
+  versions here target modern interpreters.
+- **Match creation is slow for 100k soldiers** — expected (~2 s: 10 trees ×
+  400k nodes are built); queries afterwards are sub-millisecond.
+- **CORS errors in split deploys** — set `CORS_ORIGINS` on the backend to the
+  exact frontend origin (scheme + host, no trailing slash).
+- **Ollama commentary silent** — `ollama serve` must be running and the model
+  pulled; failures fall back to local templates by design (check backend logs).
+
+## Deployment
+
+Free-tier guide (Render + Vercel/Cloudflare Pages + Neon, optional OpenRouter):
+[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+
+## Project documents
+
+- [`docs/AUDIT.md`](docs/AUDIT.md) — audit of the original codebase (including
+  the bugs fixed during modernization)
+- [`docs/PRD.md`](docs/PRD.md) — product requirements for this rebuild
+- [`docs/EXECUTION_PLAN.md`](docs/EXECUTION_PLAN.md) — the phased plan the
+  commit history follows
+
+## Future improvements
+
+- WebSocket push for real multiplayer (two browsers, one match)
+- Lazy-propagation range updates (area-of-effect damage in O(log n))
+- Alembic migrations; Redis-backed engine registry for multi-instance deploys
+- Replay viewer: step through any finished match action by action
+
+## License & attribution
+
+MIT — **Author:** Kammari HarshaVardhan ([Harshajevs](https://github.com/Harshajevs))
