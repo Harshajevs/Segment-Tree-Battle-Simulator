@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
+from app.ai.factory import get_commentary_provider
 from app.db.database import get_db
 from app.db.models import Match
 from app.engine.battle import BattleEngine
@@ -100,7 +101,11 @@ def get_match(match_id: str, db: Session = Depends(get_db)) -> MatchOut:
 @router.post("/{match_id}/actions", response_model=ActionOut)
 def act(match_id: str, request: ActionRequest, db: Session = Depends(get_db)) -> ActionOut:
     action, engine, result = match_service.act(db, match_id, request)
-    commentary = action.commentary
+    provider = get_commentary_provider()
+    commentary = provider.commentate(action.result, [t.name for t in engine.teams])
+    if commentary is not None:
+        action.commentary = commentary
+        db.commit()
     return ActionOut(
         sequence=action.sequence,
         type=action.type,

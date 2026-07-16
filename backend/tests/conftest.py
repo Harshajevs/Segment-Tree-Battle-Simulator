@@ -19,3 +19,12 @@ def client():
     init_db()
     with TestClient(app) as test_client:
         yield test_client
+
+
+@pytest.fixture
+def client_and_match(client):
+    response = client.post(
+        "/api/matches", json={"team_size": 16, "seed": 3, "max_rounds": 12}
+    )
+    assert response.status_code == 201
+    return client, response.json()["id"]
