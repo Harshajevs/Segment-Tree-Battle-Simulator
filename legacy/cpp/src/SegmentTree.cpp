@@ -43,10 +43,10 @@ void SegmentTree::update(int pos, int attack, int health) {
     
     updateSumAttack(1, 0, a.size()-1, pos, attack);
     updateSumHealth(1, 0, a.size()-1, pos, health);
-    updateMaxAttackIndex(pos, attack, a, 0, a.size()-1, 0);
-    updateMaxHealthIndex(pos, health, a, 0, a.size()-1, 0);
-    updateMinAttackIndex(pos, attack, a, 0, a.size()-1, 0);
-    updateMinHealthIndex(pos, health, a, 0, a.size()-1, 0);
+    updateMaxAttackIndex(pos, attack, a, 0, a.size()-1, 1);
+    updateMaxHealthIndex(pos, health, a, 0, a.size()-1, 1);
+    updateMinAttackIndex(pos, attack, a, 0, a.size()-1, 1);
+    updateMinHealthIndex(pos, health, a, 0, a.size()-1, 1);
     updateGcdAttack(1, 0, a.size()-1, pos, attack);
     updateGcdHealth(1, 0, a.size()-1, pos, health);
     updateLcmAttack(1, 0, a.size()-1, pos, attack);

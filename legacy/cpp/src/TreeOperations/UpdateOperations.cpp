@@ -40,7 +40,7 @@ void SegmentTree::updateMaxAttackIndex(int index, int value, vector<pair<int, in
     if (index <= mid)
         updateMaxAttackIndex(index, value, a, start, mid, 2 * node);
     else
-        updateMaxAttackIndex(index, value, a, mid + 1, end, 2 * node);
+        updateMaxAttackIndex(index, value, a, mid + 1, end, 2 * node + 1);
     int leftIdx = maxAttackTreeIndex[2 * node];
     int rightIdx = maxAttackTreeIndex[2 * node + 1];
     maxAttackTreeIndex[node] = (a[leftIdx].first > a[rightIdx].first) ? leftIdx : rightIdx;
@@ -57,7 +57,7 @@ void SegmentTree::updateMaxHealthIndex(int index, int value, vector<pair<int, in
     if (index <= mid)
         updateMaxHealthIndex(index, value, a, start, mid, 2 * node);
     else
-        updateMaxHealthIndex(index, value, a, mid + 1, end, 2 * node);
+        updateMaxHealthIndex(index, value, a, mid + 1, end, 2 * node + 1);
     int leftIdx = maxHealthTreeIndex[2 * node];
     int rightIdx = maxHealthTreeIndex[2 * node + 1];
     maxHealthTreeIndex[node] = (a[leftIdx].second > a[rightIdx].second) ? leftIdx : rightIdx;
@@ -74,7 +74,7 @@ void SegmentTree::updateMinAttackIndex(int index, int value, vector<pair<int, in
     if (index <= mid)
         updateMinAttackIndex(index, value, a, start, mid, 2 * node);
     else
-        updateMinAttackIndex(index, value, a, mid + 1, end, 2 * node);
+        updateMinAttackIndex(index, value, a, mid + 1, end, 2 * node + 1);
     int leftIdx = minAttackTreeIndex[2 * node];
     int rightIdx = minAttackTreeIndex[2 * node + 1];
     minAttackTreeIndex[node] = (a[leftIdx].first < a[rightIdx].first) ? leftIdx : rightIdx;
@@ -91,7 +91,7 @@ void SegmentTree::updateMinHealthIndex(int index, int value, vector<pair<int, in
     if (index <= mid)
         updateMinHealthIndex(index, value, a, start, mid, 2 * node);
     else
-        updateMinHealthIndex(index, value, a, mid + 1, end, 2 * node);
+        updateMinHealthIndex(index, value, a, mid + 1, end, 2 * node + 1);
     int leftIdx = minHealthTreeIndex[2 * node];
     int rightIdx = minHealthTreeIndex[2 * node + 1];
     minHealthTreeIndex[node] = (a[leftIdx].second < a[rightIdx].second) ? leftIdx : rightIdx;
