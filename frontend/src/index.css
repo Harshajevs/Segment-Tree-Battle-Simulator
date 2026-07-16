@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-arena-bg: #0b1020;
+  --color-arena-panel: #131a2e;
+  --color-arena-border: #26304d;
+  --color-team-a: #38bdf8;
+  --color-team-b: #fb7185;
+}
+
+body {
+  @apply bg-arena-bg text-slate-200 antialiased;
+}
